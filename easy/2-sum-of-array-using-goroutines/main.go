@@ -8,29 +8,25 @@ import "fmt"
 // Hint: Use channels to communicate the results between the goroutines and the main function.
 
 func main() {
-	number := []int{2, 3, 4, 5, 2, 2, 2, 3, 4, 5, 6, 8}
 
-	ch1 := make(chan int)
-	ch2 := make(chan int)
+	numbers := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 
-	half := len(number) / 2
+	ch := make(chan int)
+	half := len(numbers) / 2
 
-	go sum(number[:half], ch1)
-	go sum(number[half:], ch2)
+	go sum(numbers[:half], ch)
+	go sum(numbers[half:], ch)
 
-	sum1 := <-ch1
-	sum2 := <-ch2
+	total := <-ch + <-ch
 
-	total := sum1 + sum2
-
-	fmt.Printf("Total is : %d\n", total)
+	fmt.Println(total)
 }
 
 func sum(numbers []int, ch chan int) {
-	sum := 0
+	total := 0
 	for i := 0; i < len(numbers); i++ {
-		sum += numbers[i]
+		total += numbers[i]
 	}
 
-	ch <- sum
+	ch <- total
 }
