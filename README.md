@@ -8,6 +8,7 @@ Welcome to the GoRoutine Practice Questions repository! This repository is desig
   - [Print Numbers With GoRoutines](#1-print-numbers-with-goroutines)
   - [Sum of array using GoRoutines](#2-sum-of-array-using-goroutines)
   - [GoRoutines with a timer](#3-goroutines-with-a-timer)
+  - [Finding Maximum Value in an Array](#4-finding-maximum-value-in-an-array)
 - [Medium Questions](#medium-questions)
   - [Parallel Matrix Multiplication](#1-parallel-matrix-multiplication)
   - [Concurrent File Processing](#2-concurrent-file-processing)
@@ -39,6 +40,12 @@ Write a Go program where a goroutine waits for a certain duration (e.g., 2 secon
 the main function should continue executing other code and then wait for the goroutine to finish.
 
 <b>Hint:</b> Use the time.Sleep function for the timer and sync.WaitGroup to wait for the goroutine.
+
+### 4. Finding Maximum Value in an Array
+
+Write a Go program that finds the maximum value in an array of integers using goroutines.
+
+<b>Hint:</b> Use channels to send the maximum values from the goroutines to the main function.
 
 ## Medium Questions
 
