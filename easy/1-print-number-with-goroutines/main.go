@@ -18,15 +18,18 @@ func printNumbers() {
 	var wg sync.WaitGroup
 
 	wg.Add(3)
-	go printOneToFive(1, &wg)
-	go printOneToFive(2, &wg)
-	go printOneToFive(3, &wg)
+	go printNumberOneToFive("Group 1", &wg)
+	go printNumberOneToFive("Group 2", &wg)
+	go printNumberOneToFive("Group 3", &wg)
 	wg.Wait()
+
+	fmt.Println("--- DONE ---")
 }
 
-func printOneToFive(group int, wg *sync.WaitGroup) {
+func printNumberOneToFive(groupName string, wg *sync.WaitGroup) {
 	defer wg.Done()
+
 	for i := 1; i <= 5; i++ {
-		fmt.Printf("Group %d: %d\n", group, i)
+		fmt.Printf("%s : %d\n", groupName, i)
 	}
 }
