@@ -13,7 +13,7 @@ func main() {
 	ch := make(chan int)
 
 	go func() {
-		for i := 1; i <= 5; i++ {
+		for i := 0; i < 5; i++ {
 			time.Sleep(1 * time.Second)
 			ch <- i
 		}
@@ -21,15 +21,15 @@ func main() {
 	}()
 
 	go func() {
-		for i := 1; i <= 1000; i++ {
+		for i := 0; i < 30; i++ {
 			time.Sleep(250 * time.Millisecond)
 			fmt.Printf("Hello! %d\n", i)
 		}
 	}()
 
-	for ch := range ch {
-		fmt.Printf("Hello, Goroutine! %d\n", ch)
+	for val := range ch {
+		fmt.Printf("Hello Goroutine!: %d\n", val)
 	}
 
-	fmt.Println("--- Main function done ---")
+	fmt.Println("--- DONE ---")
 }
