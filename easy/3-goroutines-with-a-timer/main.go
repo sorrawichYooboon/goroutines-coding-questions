@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"sync"
 	"time"
 )
 
@@ -9,27 +10,22 @@ import (
 // the main function should continue executing other code and then wait for the goroutine to finish.
 
 // Hint: Use the time.Sleep function for the timer and sync.WaitGroup to wait for the goroutine.
+
 func main() {
-	ch := make(chan int)
+	var wg sync.WaitGroup
 
+	wg.Add(1)
 	go func() {
-		for i := 0; i < 5; i++ {
-			time.Sleep(1 * time.Second)
-			ch <- i
-		}
-		close(ch)
+		defer wg.Done()
+		time.Sleep(2 * time.Second)
+		fmt.Println("Hello, Goroutine!")
 	}()
 
-	go func() {
-		for i := 0; i < 30; i++ {
-			time.Sleep(250 * time.Millisecond)
-			fmt.Printf("Hello! %d\n", i)
-		}
-	}()
+	fmt.Println("Doing some work")
+	time.Sleep(1 * time.Second)
+	fmt.Println("Doing some work done!!!")
 
-	for val := range ch {
-		fmt.Printf("Hello Goroutine!: %d\n", val)
-	}
+	wg.Wait()
 
-	fmt.Println("--- DONE ---")
+	fmt.Println("--- Done ---")
 }
