@@ -1,9 +1,6 @@
 package main
 
-import (
-	"fmt"
-	"math"
-)
+import "fmt"
 
 // Write a Go program that finds the maximum value in an array of integers using goroutines.
 
@@ -12,39 +9,39 @@ import (
 func main() {
 	nums := []int{3, 4, 6, 10, 52, 56, 54, 32, 66, 104, 34, 4, 9, 7, 10}
 	maxNum := getMaxNum(nums)
-	fmt.Printf("Max num is : %d", maxNum)
+	fmt.Println(maxNum)
 }
 
 func getMaxNum(nums []int) int {
-	if len(nums) == 0 {
-		return 0
-	}
+	ch := make(chan int)
 
-	if len(nums) == 1 {
-		return nums[0]
-	}
-
-	firstHalfCh := make(chan int)
-	lastHalfCh := make(chan int)
 	half := len(nums) / 2
-	go findMaxNumInSubArray(nums[:half], firstHalfCh)
-	go findMaxNumInSubArray(nums[half:], lastHalfCh)
+	firstHalf := nums[:half]
+	lastHalf := nums[half:]
 
-	maxFirst, maxLast := <-firstHalfCh, <-lastHalfCh
+	go findMaxNums(firstHalf, ch)
+	go findMaxNums(lastHalf, ch)
 
-	maxNum := int(math.Max(float64(maxFirst), float64(maxLast)))
-
+	maxNum := max(<-ch, <-ch)
 	return maxNum
 }
 
-func findMaxNumInSubArray(nums []int, ch chan int) {
-	max := nums[0]
+func findMaxNums(nums []int, ch chan int) {
+	currMax := -1
 
 	for _, num := range nums {
-		if num > max {
-			max = num
+		if currMax < num {
+			currMax = num
 		}
 	}
 
-	ch <- max
+	ch <- currMax
+}
+
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+
+	return b
 }
