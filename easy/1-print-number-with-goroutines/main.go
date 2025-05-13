@@ -11,26 +11,21 @@ import (
 // Hint: Use sync.WaitGroup to wait for all goroutines to complete.
 
 func main() {
-	printNumbers()
-}
-
-func printNumbers() {
 	var wg sync.WaitGroup
 
 	wg.Add(3)
-	go printGroupNumbers("Group 1", &wg)
-	go printGroupNumbers("Group 2", &wg)
-	go printGroupNumbers("Group 3", &wg)
-
+	go printNumbers(&wg, "group 1")
+	go printNumbers(&wg, "group 2")
+	go printNumbers(&wg, "group 3")
 	wg.Wait()
 
-	fmt.Println("--- DONE ---")
+	fmt.Println("---DONE---")
 }
 
-func printGroupNumbers(groupName string, wg *sync.WaitGroup) {
+func printNumbers(wg *sync.WaitGroup, groupName string) {
 	defer wg.Done()
 
 	for i := range [5]int{} {
-		fmt.Printf("[%s] - %d\n", groupName, i+1)
+		fmt.Printf("%s|%d\n", groupName, i+1)
 	}
 }

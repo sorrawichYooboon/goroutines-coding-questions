@@ -7,35 +7,30 @@ import "fmt"
 // Hint: Use channels to send the maximum values from the goroutines to the main function.
 
 func main() {
-	nums := []int{3, 4, 6, 10, 52, 56, 54, 32, 66, 104, 34, 4, 9, 7, 10}
-	maxNum := getMaxNum(nums)
-	fmt.Println(maxNum)
-}
+	nums := []int{3, 4, 6, 10, 52, 56, 54, 32, 123, 66, 104, 34, 4, 9, 7, 10}
 
-func getMaxNum(nums []int) int {
 	ch := make(chan int)
 
 	half := len(nums) / 2
 	firstHalf := nums[:half]
 	lastHalf := nums[half:]
 
-	go findMaxNums(firstHalf, ch)
-	go findMaxNums(lastHalf, ch)
+	go findMaxNum(firstHalf, ch)
+	go findMaxNum(lastHalf, ch)
 
-	maxNum := max(<-ch, <-ch)
-	return maxNum
+	max := max(<-ch, <-ch)
+	fmt.Println("max is: ", max)
 }
 
-func findMaxNums(nums []int, ch chan int) {
-	currMax := -1
-
+func findMaxNum(nums []int, ch chan int) {
+	max := -1
 	for _, num := range nums {
-		if currMax < num {
-			currMax = num
+		if max < num {
+			max = num
 		}
 	}
 
-	ch <- currMax
+	ch <- max
 }
 
 func max(a, b int) int {

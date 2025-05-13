@@ -21,11 +21,11 @@ func main() {
 		fmt.Println("Hello, Goroutine!")
 	}()
 
-	fmt.Println("Doing some work")
-	time.Sleep(1 * time.Second)
-	fmt.Println("Doing some work done!!!")
+	for i := range [5]int{} {
+		time.Sleep(200 * time.Millisecond)
+		fmt.Println(i)
+	}
 
 	wg.Wait()
-
-	fmt.Println("--- Done ---")
+	fmt.Println("---DONE---")
 }
