@@ -14,18 +14,16 @@ func main() {
 	var wg sync.WaitGroup
 
 	wg.Add(3)
-	go printNumbers(&wg, "group 1")
-	go printNumbers(&wg, "group 2")
-	go printNumbers(&wg, "group 3")
+	go printNumbers("Goroutine 1", &wg)
+	go printNumbers("Goroutine 2", &wg)
+	go printNumbers("Goroutine 3", &wg)
 	wg.Wait()
-
-	fmt.Println("---DONE---")
+	fmt.Println("All goroutines finished executing.")
 }
 
-func printNumbers(wg *sync.WaitGroup, groupName string) {
+func printNumbers(name string, wg *sync.WaitGroup) {
 	defer wg.Done()
-
-	for i := range [5]int{} {
-		fmt.Printf("%s|%d\n", groupName, i+1)
+	for i := 1; i <= 5; i++ {
+		fmt.Printf("%s: %d\n", name, i)
 	}
 }

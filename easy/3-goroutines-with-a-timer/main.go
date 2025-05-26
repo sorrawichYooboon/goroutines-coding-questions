@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"sync"
 	"time"
 )
@@ -18,14 +17,14 @@ func main() {
 	go func() {
 		defer wg.Done()
 		time.Sleep(2 * time.Second)
-		fmt.Println("Hello, Goroutine!")
+		println("Hello, Goroutine!")
 	}()
 
-	for i := range [5]int{} {
-		time.Sleep(200 * time.Millisecond)
-		fmt.Println(i)
+	for i := 0; i < 5; i++ {
+		println("Main function is running...")
+		time.Sleep(300 * time.Millisecond)
 	}
 
 	wg.Wait()
-	fmt.Println("---DONE---")
+	println("Main function finished executing.")
 }
